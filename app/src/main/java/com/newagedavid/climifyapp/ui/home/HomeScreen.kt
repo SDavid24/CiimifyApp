@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -46,6 +47,8 @@ fun HomeScreen(
                     .padding(16.dp)
             ) {
                 // ---------------- Top Bar ----------------
+                Spacer(modifier = Modifier.height(16.dp))
+
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -75,7 +78,7 @@ fun HomeScreen(
                     )
                 }
 
-                Spacer(modifier = Modifier.height(60.dp))
+                Spacer(modifier = Modifier.height(90.dp))
 
                 // Temperature
                 Text(
@@ -96,31 +99,53 @@ fun HomeScreen(
                     modifier = Modifier.align(Alignment.Start)
                 )
 
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(42.dp))
 
-            }
+                // ---------------- Lower-half content ----------------
+
+                Box(
+                    modifier = Modifier
+                        //.fillMaxSize()
+                      //  .padding(16.dp)
+                        .fillMaxHeight()
+                ) {
+                    Column(
+                        modifier = Modifier.align(Alignment.BottomStart).fillMaxSize() // ✅ works because parent is Box
+                    ) {
+                        // Hourly forecast row
+                        HourlyForecastRow(cityName = cityWeather.name, homeViewModel)
+
+                        Spacer(modifier = Modifier.height(45.dp))
+
+                        // Daily forecast list
+                        DailyForecastList(cityName = cityWeather.name, homeViewModel)
+                    }
+                }
+
+                /*
+                                Column(
+                                    modifier = Modifier.align(Alignment.BottomStart)
+                                        .fillMaxWidth()
+                                        .padding(16.dp)
+                                        //.align(Alignment.BottomStart)
+                                ) {
+                                    Spacer(modifier = Modifier.height(250.dp)) // Push down to avoid overlapping upper-half
+
+                                    // Hourly forecast row (default colors)
+                                    HourlyForecastRow(cityName = cityWeather.name, homeViewModel)
+
+                                    Spacer(modifier = Modifier.height(32.dp))
+
+                                    // Daily forecast list (default colors)
+                                    DailyForecastList(cityName = cityWeather.name, homeViewModel)
+                                }
+                            }*/
+
+
         }
 
-        Spacer(modifier = Modifier.height(250.dp)) // Push down to avoid overlapping upper-half
 
-        // ---------------- Lower-half content ----------------
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-                .align(Alignment.BottomStart)
-        ) {
-            Spacer(modifier = Modifier.height(250.dp)) // Push down to avoid overlapping upper-half
-
-            // Hourly forecast row (default colors)
-            HourlyForecastRow(cityName = cityWeather.name, homeViewModel)
-
-            Spacer(modifier = Modifier.height(32.dp))
-
-            // Daily forecast list (default colors)
-            DailyForecastList(cityName = cityWeather.name, homeViewModel)
-        }
-    }
+    }}
 }
 
 

@@ -39,7 +39,7 @@ fun DailyForecastList(cityName: String, vm: HomeViewModel) {
                 Icon(
                     painter = painterResource(id = mapWeatherIcon(daily.description, daily.icon)),
                     contentDescription = null,
-                    modifier = Modifier.size(27.dp)
+                    modifier = Modifier.size(27.dp).weight(1f)//.align(Alignment.CenterHorizontally)
                 )
                 val maxTemp = daily.tempRange.split("/").getOrNull(1)?.trim() ?: "--"
                 Text(maxTemp,  fontSize = 19.sp, color = Color(0xFF505050), modifier = Modifier.weight(1f), textAlign = TextAlign.End)
