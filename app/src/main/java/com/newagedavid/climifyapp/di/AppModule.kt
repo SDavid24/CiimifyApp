@@ -2,9 +2,7 @@ package com.newagedavid.climifyapp.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.os.Build
-import androidx.annotation.RequiresApi
-import com.newagedavid.climifyapp.data.remote.OpenWeatherApi
+import com.newagedavid.climifyapp.data.remote.apiservice.OpenWeatherApi
 import com.newagedavid.climifyapp.data.repository.CityRepository
 import com.newagedavid.climifyapp.data.repository.CityRepositoryImpl
 import com.newagedavid.climifyapp.data.repository.DailyForecastRepository
@@ -20,7 +18,6 @@ import com.newagedavid.climifyapp.domain.usecase.SaveHourlyForecastsUseCase
 import com.newagedavid.climifyapp.domain.usecase.city.AddCityUseCase
 import com.newagedavid.climifyapp.domain.usecase.city.GetCitiesWithCurrentWeatherUseCase
 import com.newagedavid.climifyapp.ui.city.CityManagerViewModel
-import com.newagedavid.climifyapp.ui.details.DetailsViewModel
 import com.newagedavid.climifyapp.ui.home.HomeViewModel
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -59,7 +56,6 @@ val appModule = module {
     //view models
     viewModel { HomeViewModel(get(), get(), get(), get())}
     viewModel { CityManagerViewModel(get(), get())}
-    viewModel { DetailsViewModel() }
 }
 
 fun providePreferences(context: Context): SharedPreferences =

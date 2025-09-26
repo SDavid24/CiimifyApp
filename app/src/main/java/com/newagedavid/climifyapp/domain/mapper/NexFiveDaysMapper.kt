@@ -1,7 +1,5 @@
 package com.newagedavid.climifyapp.domain.mapper
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.newagedavid.climifyapp.data.local.entity.DailyCityForecast
 import com.newagedavid.climifyapp.data.remote.model.ForecastResponse
 import com.newagedavid.climifyapp.util.DateFormats

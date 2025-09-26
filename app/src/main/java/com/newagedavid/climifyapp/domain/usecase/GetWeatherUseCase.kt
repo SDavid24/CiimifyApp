@@ -7,7 +7,6 @@ import com.newagedavid.climifyapp.data.repository.WeatherRepository
 
 
 class GetWeatherUseCase(private val repository: WeatherRepository) {
-    @RequiresApi(Build.VERSION_CODES.O)
     suspend operator fun invoke(city: String): Result<List<HourlyCityForecast>> =
         repository.getTodayHourly(city)
 }

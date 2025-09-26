@@ -1,12 +1,10 @@
 package com.newagedavid.climifyapp.data.repository
 
 
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import com.newagedavid.climifyapp.data.local.entity.DailyCityForecast
 import com.newagedavid.climifyapp.data.local.entity.HourlyCityForecast
-import com.newagedavid.climifyapp.data.remote.OpenWeatherApi
+import com.newagedavid.climifyapp.data.remote.apiservice.OpenWeatherApi
 import com.newagedavid.climifyapp.data.remote.model.WeatherResponse
 import com.newagedavid.climifyapp.domain.mapper.toNextFourDaysIncludingToday
 import com.newagedavid.climifyapp.domain.mapper.toTodayHourlyForecast

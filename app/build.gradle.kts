@@ -108,10 +108,6 @@ dependencies {
 
     implementation(libs.androidx.material.icons.extended)
 
-
-    // lottie animations
-    implementation(libs.lottie.compose)
-
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
 

@@ -1,6 +1,5 @@
-package com.newagedavid.climifyapp.data.remote
+package com.newagedavid.climifyapp.data.remote.apiservice
 
-import com.google.android.gms.common.api.Response
 import com.newagedavid.climifyapp.BuildConfig
 import com.newagedavid.climifyapp.data.remote.model.ForecastResponse
 import com.newagedavid.climifyapp.data.remote.model.WeatherResponse

@@ -1,13 +1,9 @@
 package com.newagedavid.climifyapp.domain.usecase
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import timber.log.Timber
 
-
-@RequiresApi(Build.VERSION_CODES.O)
 class RefreshCityWeatherUseCase(
     private val getWeatherUseCase: GetWeatherUseCase,
     private val getForecastUseCase: GetForecastUseCase,
