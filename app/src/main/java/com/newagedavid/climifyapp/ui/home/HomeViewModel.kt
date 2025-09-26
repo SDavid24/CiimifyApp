@@ -12,6 +12,7 @@ import com.newagedavid.climifyapp.data.local.entity.HourlyCityForecast
 import com.newagedavid.climifyapp.domain.usecase.GetHourlyForecastUseCase
 import com.newagedavid.climifyapp.domain.usecase.GetNextFourDaysUseCase
 import com.newagedavid.climifyapp.domain.usecase.RefreshCityWeatherUseCase
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -45,15 +46,11 @@ class HomeViewModel(
     }
 
 
-    fun fetchWeather() {
-        val city = cityState.value.trim()
+    fun fetchWeather(city: String) {
         if (city.isBlank()) {
             errorState.value = "Please enter a city"
             return
         }
-
-        isLoading.value = true
-        errorState.value = null
 
         viewModelScope.launch {
             try {

@@ -14,6 +14,7 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -28,12 +29,21 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun HomeScreenPager(
     navController: NavController,
-    cityManagerViewModel: CityManagerViewModel = getViewModel()
+    cityManagerViewModel: CityManagerViewModel = getViewModel(),
+    homeViewModel: HomeViewModel = getViewModel()
 ) {
     val cityWeatherList by cityManagerViewModel.citiesWithWeather.collectAsState(initial = null)
 
     // If still loading, show nothing
     if (cityWeatherList == null) return
+
+    //fetch weather report for all favorited cities on app launch
+    LaunchedEffect(cityWeatherList) {
+        cityWeatherList?.forEach { cityWeather ->
+            homeViewModel.fetchWeather(cityWeather.name)
+        }
+    }
+
 
     // Once loaded, check if empty
     cityWeatherList?.let { list ->
@@ -50,6 +60,7 @@ fun HomeScreenPager(
             initialPage = 0,
             pageCount = { list.size }
         )
+
 
         Box(modifier = Modifier.fillMaxSize()) {
             // Pager

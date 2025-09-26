@@ -5,18 +5,10 @@ import android.util.Log
 import com.newagedavid.climifyapp.data.local.entity.DailyCityForecast
 import com.newagedavid.climifyapp.data.local.entity.HourlyCityForecast
 import com.newagedavid.climifyapp.data.remote.apiservice.OpenWeatherApi
-import com.newagedavid.climifyapp.data.remote.model.WeatherResponse
 import com.newagedavid.climifyapp.domain.mapper.toNextFourDaysIncludingToday
 import com.newagedavid.climifyapp.domain.mapper.toTodayHourlyForecast
 
 class WeatherRepository(private val api: OpenWeatherApi) {
-
-    suspend fun getWeatherForCity(city: String): Result<WeatherResponse> =
-        runCatching {
-            api.getCurrentWeather(city)
-        }.onFailure {
-            Log.e("WeatherRepository", "Failed to fetch current weather", it)
-        }
 
     suspend fun getTodayHourly(city: String): Result<List<HourlyCityForecast>> =
         runCatching {
