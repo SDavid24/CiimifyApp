@@ -50,8 +50,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.newagedavid.climifyapp.R
 import kotlinx.coroutines.launch
@@ -223,9 +226,15 @@ fun CityManagerScreen(
 
                             Column {
 
-                                Text(cityWeather.name, style = MaterialTheme.typography.titleMedium)
+                                Text(cityWeather.name, style = TextStyle(
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Bold
+                                ))
+                                Spacer(Modifier.height(4.dp))
                                 cityWeather.description?.let {
-                                    Text(it, style = MaterialTheme.typography.bodySmall)
+                                    Text(it, style = TextStyle(
+                                        fontSize = 13.sp,
+                                    ))
                                 }
                             }
 
@@ -234,16 +243,17 @@ fun CityManagerScreen(
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(
                                 text = "${cityWeather.temp ?: "--"}°C",
-                                style = MaterialTheme.typography.bodyMedium
+                                style = TextStyle(
+                                    fontSize = 19.sp
+                                ) //MaterialTheme.typography.bodyMedium
                             )
                             Spacer(Modifier.width(8.dp))
                             VerticalDivider(modifier = Modifier.height(18.dp), 1.dp)
-                            Spacer(Modifier.width(8.dp))
                             cityWeather.icon?.let {
                                 Icon(
                                     painter = painterResource(id = mapWeatherIcon(cityWeather.description, cityWeather.icon)),
                                     contentDescription = null,
-                                    modifier = Modifier.size(24.dp)
+                                    modifier = Modifier.size(26.dp)
                                 )
                             }
                         }
