@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,6 +21,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.LocationCity
+import androidx.compose.material.icons.filled.RemoveCircle
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CircularProgressIndicator
@@ -83,7 +85,7 @@ fun CityManagerScreen(
                 navigationIcon = {
                     IconButton(onClick = {
                         if (cityWeatherList == null || cityWeatherList!!.isEmpty() ) {
-                            Toast.makeText(context, "You need to add a city!", Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, "You need to add your favourite cities!", Toast.LENGTH_LONG).show()
 
                         }else {
                             navController.navigate("home") {
@@ -114,7 +116,14 @@ fun CityManagerScreen(
                 ) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.clickable { isEditing = !isEditing }
+                        modifier = Modifier.clickable {
+                            if (cityWeatherList == null || cityWeatherList!!.isEmpty() ) {
+                                Toast.makeText(context, "There is no city to edit. Kindly add your favourite city!", Toast.LENGTH_LONG).show()
+
+                            }else {
+                                isEditing = !isEditing
+                            }
+                        }
                     ) {
                         Icon(imageVector = Icons.Default.Edit, contentDescription = "Edit")
                         Text("Edit", style = MaterialTheme.typography.bodySmall)
@@ -184,11 +193,42 @@ fun CityManagerScreen(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Column {
-                            Text(cityWeather.name, style = MaterialTheme.typography.titleMedium)
-                            cityWeather.description?.let {
-                                Text(it, style = MaterialTheme.typography.bodySmall)
+
+                        Row(
+                            modifier = Modifier,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            // 🔹 Show minus icon only in editing mode
+                            if (isEditing) {
+                                Icon(
+                                    imageVector = Icons.Default.RemoveCircle, // filled minus icon
+                                    contentDescription = "Delete city",
+                                    tint = Color.Red,
+                                    modifier = Modifier
+                                        .size(42.dp)
+                                        .fillMaxHeight()
+                                        .padding(end = 16.dp)
+                                        .clickable {
+                                            // cityManagerViewModel.deleteCity(cityWeather.name) // call your delete function
+
+                                            cityManagerViewModel.deleteCity(cityWeather.name) { success, error ->
+                                                if (!success) {
+                                                    Toast.makeText(context, error ?: "Failed to delete ${cityWeather.name}. Try again later.", Toast.LENGTH_LONG).show()
+                                                }
+                                            }
+
+                                        }
+                                )
                             }
+
+                            Column {
+
+                                Text(cityWeather.name, style = MaterialTheme.typography.titleMedium)
+                                cityWeather.description?.let {
+                                    Text(it, style = MaterialTheme.typography.bodySmall)
+                                }
+                            }
+
                         }
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -212,48 +252,6 @@ fun CityManagerScreen(
             }
         }
 
-
-        /*  LazyColumn (
-              modifier = Modifier
-                  .padding(padding)
-                  .fillMaxSize()
-          ) {
-
-              items(cityWeatherList) { cityWeather ->
-                  Row(
-                      modifier = Modifier
-                          .fillMaxWidth()
-                          .padding(16.dp),
-                      horizontalArrangement = Arrangement.SpaceBetween,
-                      verticalAlignment = Alignment.CenterVertically
-                  ) {
-                      Column {
-                          Text(cityWeather.name, style = MaterialTheme.typography.titleMedium)
-                          cityWeather.description?.let {
-                              Text(it, style = MaterialTheme.typography.bodySmall)
-                          }
-                      }
-
-                      Row(verticalAlignment = Alignment.CenterVertically) {
-                          Text(
-                              text = "${cityWeather.temp ?: "--"}°C",
-                              style = MaterialTheme.typography.bodyMedium
-                          )
-                          Spacer(Modifier.width(8.dp))
-                          VerticalDivider(modifier = Modifier.height(18.dp), 1.dp)
-                          Spacer(Modifier.width(8.dp))
-                          cityWeather.icon?.let {
-                              Icon(
-                                  painter = painterResource(id = mapWeatherIcon(cityWeather.description, cityWeather.icon)),
-                                  contentDescription = null,
-                                  modifier = Modifier.size(24.dp)
-                              )
-                          }
-                      }
-                  }
-                 // Divider(thickness = 0.2.dp)
-              }
-      }*/
 
     // Add City Dialog
     if (showAddDialog) {
@@ -340,47 +338,3 @@ fun mapWeatherIcon(description: String?, iconCode: String?): Int {
         }
     }
 }
-
-
-
-
-/*
-@Composable
-fun CityRow(
-    uiModel: CityUiModel,
-    isEditing: Boolean,
-    onEditClicked: (Long, String) -> Unit,
-    onRowClicked: () -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onRowClicked() }
-            .padding(16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(uiModel.name, style = MaterialTheme.typography.bodyLarge)
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(uiModel.temp?.let { "${it.toInt()}°C" } ?: "--°C", style = MaterialTheme.typography.body2)
-            Spacer(modifier = Modifier.width(8.dp))
-            if (uiModel.icon != null) {
-                val url = "https://openweathermap.org/img/wn/${uiModel.icon}@2x.png"
-                AsyncImage(model = url, contentDescription = uiModel.name, modifier = Modifier.size(36.dp))
-            } else {
-                // placeholder Box or Icon
-                Icon(
-                    painter = rememberVectorPainter(Icons.Default.Edit), // placeholder icon (replace with your drawable)
-                    contentDescription = "weather"
-                )
-            }
-            if (isEditing) {
-                Spacer(modifier = Modifier.width(12.dp))
-                IconButton(onClick = { onEditClicked(uiModel.cityId, uiModel.name) }) {
-                    Icon(imageVector = Icons.Default.Edit, contentDescription = "Edit city")
-                }
-            }
-        }
-    }
-}
-*/

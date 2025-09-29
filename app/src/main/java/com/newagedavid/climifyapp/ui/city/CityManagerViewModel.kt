@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.newagedavid.climifyapp.data.local.entity.CityWithCurrentWeather
 import com.newagedavid.climifyapp.domain.usecase.city.AddCityUseCase
+import com.newagedavid.climifyapp.domain.usecase.city.DeleteAllWeatherRecordsForACityUseCase
 import com.newagedavid.climifyapp.domain.usecase.city.GetCitiesWithCurrentWeatherUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -16,7 +17,8 @@ import kotlinx.coroutines.launch
 
 class CityManagerViewModel(
     private val addCityUseCase: AddCityUseCase,
-    getCitiesWithCurrentWeatherUseCase: GetCitiesWithCurrentWeatherUseCase
+    getCitiesWithCurrentWeatherUseCase: GetCitiesWithCurrentWeatherUseCase,
+    private val deleteAllWeatherRecordsForACityUseCase: DeleteAllWeatherRecordsForACityUseCase
 ) : ViewModel() {
 
 
@@ -35,4 +37,17 @@ class CityManagerViewModel(
             }
         }
     }
+
+    // 🔹 function to delete a city
+    fun deleteCity(cityName: String, onResult: (Boolean, String?) -> Unit = { _, _ -> }) {
+        viewModelScope.launch {
+            try {
+                deleteAllWeatherRecordsForACityUseCase(cityName)
+                onResult(true, null)
+            } catch (e: Exception) {
+                onResult(false, e.message)
+            }
+        }
+    }
+
 }

@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface CityRepository {
     suspend fun addCity(cityName: String): City
+    suspend fun deleteCity(cityName: String)
     suspend fun getCityByName(cityName: String): City?
     fun getCitiesWithCurrentWeather(): Flow<List<CityWithCurrentWeather>>
 }

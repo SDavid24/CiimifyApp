@@ -16,6 +16,7 @@ import com.newagedavid.climifyapp.domain.usecase.RefreshCityWeatherUseCase
 import com.newagedavid.climifyapp.domain.usecase.SaveDailyForecastsUseCase
 import com.newagedavid.climifyapp.domain.usecase.SaveHourlyForecastsUseCase
 import com.newagedavid.climifyapp.domain.usecase.city.AddCityUseCase
+import com.newagedavid.climifyapp.domain.usecase.city.DeleteAllWeatherRecordsForACityUseCase
 import com.newagedavid.climifyapp.domain.usecase.city.GetCitiesWithCurrentWeatherUseCase
 import com.newagedavid.climifyapp.ui.city.CityManagerViewModel
 import com.newagedavid.climifyapp.ui.home.HomeViewModel
@@ -52,10 +53,11 @@ val appModule = module {
     single { RefreshCityWeatherUseCase(get(), get(), get(), get()) }
     single { GetHourlyForecastUseCase(get()) }
     single { GetNextFourDaysUseCase(get()) }
+    single { DeleteAllWeatherRecordsForACityUseCase(get(), get(), get()) }
 
     //view models
     viewModel { HomeViewModel(get(), get(), get(), get())}
-    viewModel { CityManagerViewModel(get(), get())}
+    viewModel { CityManagerViewModel(get(), get(), get())}
 }
 
 fun providePreferences(context: Context): SharedPreferences =

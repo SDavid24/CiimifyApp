@@ -13,4 +13,7 @@ class HourlyCityForecastRepository(private val dao: HourlyForecastDao) {
         return dao.getHourlyForecastForCity(cityName, forecastAt)
     }
 
+    suspend fun deleteAllCityWeatherRecords(cityName: String){
+        dao.deleteAllHourlyCityWeatherRecords(cityName)
+    }
 }

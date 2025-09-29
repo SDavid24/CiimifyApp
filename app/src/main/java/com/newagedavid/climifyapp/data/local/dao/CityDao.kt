@@ -21,8 +21,8 @@ interface CityDao {
     @Update
     suspend fun updateCity(city: City)
 
-    @Delete
-    suspend fun deleteCity(city: City)
+    @Query("DELETE FROM City where name = :cityName")
+    suspend fun deleteCity(cityName: String)
 
     @Query("SELECT * FROM city WHERE name = :name LIMIT 1")
     suspend fun getByName(name: String): City?

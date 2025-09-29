@@ -41,8 +41,7 @@ fun DailyForecastList(cityName: String, vm: HomeViewModel) {
                     contentDescription = null,
                     modifier = Modifier.size(27.dp).weight(1f)//.align(Alignment.CenterHorizontally)
                 )
-                val maxTemp = daily.tempRange.split("/").getOrNull(1)?.trim() ?: "--"
-                Text(maxTemp,  fontSize = 19.sp, color = Color(0xFF505050), modifier = Modifier.weight(1f), textAlign = TextAlign.End)
+                Text(daily.tempRange,  fontSize = 19.sp, color = Color(0xFF505050), modifier = Modifier.weight(1f), textAlign = TextAlign.End)
             }
         }
     }

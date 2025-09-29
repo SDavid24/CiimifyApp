@@ -82,7 +82,7 @@ fun HomeScreen(
 
                 // Temperature
                 Text(
-                    text = "${cityWeather.temp ?: "--"}°",
+                    text = cityWeather.temp?.let { "$it°" } ?: "--",
                     style = MaterialTheme.typography.displayLarge,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.align(Alignment.Start)
@@ -121,25 +121,6 @@ fun HomeScreen(
                         DailyForecastList(cityName = cityWeather.name, homeViewModel)
                     }
                 }
-
-                /*
-                                Column(
-                                    modifier = Modifier.align(Alignment.BottomStart)
-                                        .fillMaxWidth()
-                                        .padding(16.dp)
-                                        //.align(Alignment.BottomStart)
-                                ) {
-                                    Spacer(modifier = Modifier.height(250.dp)) // Push down to avoid overlapping upper-half
-
-                                    // Hourly forecast row (default colors)
-                                    HourlyForecastRow(cityName = cityWeather.name, homeViewModel)
-
-                                    Spacer(modifier = Modifier.height(32.dp))
-
-                                    // Daily forecast list (default colors)
-                                    DailyForecastList(cityName = cityWeather.name, homeViewModel)
-                                }
-                            }*/
 
 
         }

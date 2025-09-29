@@ -23,10 +23,10 @@ interface DailyCityForecastDao {
     """)
     fun getNextFourDays(cityName: String, startOfToday: String): Flow<List<DailyCityForecast>>
 
+    @Query("DELETE FROM daily_city_forecast where city = :cityName")
+    suspend fun deleteAllDailyCityWeatherRecords(cityName: String)
 
     //@Query("SELECT * FROM city_daily_forecast Where city ORDER BY  DESC")
    // fun getNextFourDiaCityForecast(): Flow<List<DailyCityForecast>>
 
-    @Query("DELETE FROM daily_city_forecast")
-    suspend fun clearRideHistory()
 }

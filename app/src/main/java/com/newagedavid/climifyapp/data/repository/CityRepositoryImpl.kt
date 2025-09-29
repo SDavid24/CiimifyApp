@@ -31,6 +31,10 @@ class CityRepositoryImpl(
         return if (id > 0) newCity.copy(id = id) else cityDao.getByName(cityName)!!
     }
 
+    override suspend fun deleteCity(cityName: String) {
+        cityDao.deleteCity(cityName)
+    }
+
     override suspend fun getCityByName(cityName: String): City? =
         cityDao.getByName(cityName)
 

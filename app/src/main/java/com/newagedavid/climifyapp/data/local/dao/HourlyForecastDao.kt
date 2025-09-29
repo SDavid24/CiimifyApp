@@ -23,4 +23,6 @@ interface HourlyForecastDao {
 """)
     fun getHourlyForecastForCity(cityName: String, forecastDate: String): Flow<List<HourlyCityForecast>>
 
+    @Query("DELETE FROM hourly_city_forecast where city = :cityName")
+    suspend fun deleteAllHourlyCityWeatherRecords(cityName: String)
 }

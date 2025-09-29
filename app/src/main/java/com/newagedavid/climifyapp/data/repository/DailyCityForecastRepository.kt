@@ -12,4 +12,8 @@ class DailyForecastRepository(private val dao: DailyCityForecastDao) {
         return dao.getNextFourDays(cityName, startOfToday)
     }
 
+    suspend fun deleteAllCityWeatherRecords(cityName: String){
+        dao.deleteAllDailyCityWeatherRecords(cityName)
+    }
+
 }
